@@ -3,14 +3,14 @@
     <title>Data Miner</title>
   </head>
   <body>
-    <div>
+    <div style="height: 70px; width: 500px; position: relative;">
       <form>
         <label for="url">Enter URL:</label>
-        <input type="text" id="url" name="url">
-        <button type="button" id="submit">Mine Data</button>
+        <input type="text" id="url" name="url" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); height: 40px; width: 80%; border: none; outline: none; padding: 0 20px; font-size: 18px;">
+        <button type="button" id="submit" style="position: absolute; top: 50%; right: 0; transform: translateY(-50%); height: 40px; width: 20%; border: none; outline: none; background-color: #4285F4; color: white; font-size: 18px;">Mine Data</button>
       </form>
     </div>
-    <div>
+    <div style="font-size: 16px; font-family: Arial; width: 615px;">
       <pre>
         <code id="gathered-text"></code>
       </pre>
@@ -65,19 +65,8 @@
       // Add an event listener to the submit button to listen for a click event
       submitButton.addEventListener('click', () => {
         // Get the value of the input field
-        const url = inputField.value;
-        
-        // Call the data miner function and pass in the URL
-        mineData(url).then(data => {
-          // Clear the data container
-          document.getElementById('gathered-text').textContent = '';
-          
-          // Iterate through the mined data and add it to the page
-          for (const item of data) {
-            document.getElementById('gathered-text').textContent += `${item}\n`;
-          }
-        });
-      });
+        const url = inputField.
+
     </script>
   </body>
 </html>
