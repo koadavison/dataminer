@@ -1,0 +1,85 @@
+<html>
+  <head>
+    <title>Data Miner</title>
+  </head>
+  <body>
+    <div>
+      <form>
+        <label for="url">Enter URL:</label>
+        <input type="text" id="url" name="url">
+        <button type="button" id="submit">Mine Data</button>
+      </form>
+    </div>
+    <div>
+      <pre>
+        <code id="gathered-text"></code>
+      </pre>
+    </div>
+    <script>
+      async function mineData(url) {
+        // Retrieve HTML source code from the URL
+        const response = await fetch(url);
+        const html = await response.text();
+  
+        // Parse the HTML into a DOM tree
+        const parser = new DOMParser();
+        const doc = parser.parseFromString(html, 'text/html');
+  
+        // Find all the text nodes within the DOM tree
+        const textNodes = getTextNodes(doc.body);
+  
+        // Create an array to store the mined data
+        const data = [];
+  
+        // Iterate through the text nodes and copy the text from the page
+        for (const node of textNodes) {
+          data.push(node.textContent);
+        }
+  
+        return data;
+      }
+      
+      // Recursive function to find all the text nodes in a DOM element and its children
+      function getTextNodes(element) {
+        let nodes = [];
+  
+        // If the element has children, iterate through them and find their text nodes
+        if (element.hasChildNodes()) {
+          for (const child of element.childNodes) {
+            nodes = nodes.concat(getTextNodes(child));
+          }
+        }
+  
+        // If the element is a text node, add it to the array
+        if (element.nodeType === Node.TEXT_NODE) {
+          nodes.push(element);
+        }
+  
+        return nodes;
+      }
+      
+      // Get a reference to the submit button and input field
+      const submitButton = document.getElementById('submit');
+      const inputField = document.getElementById('url');
+      
+      // Add an event listener to the submit button to listen for a click event
+      submitButton.addEventListener('click', () => {
+        // Get the value of the input field
+        const url = inputField.value;
+        
+        // Call the data miner function and pass in the URL
+        mineData(url).then(data => {
+          // Clear the data container
+          document.getElementById('gathered-text').textContent = '';
+          
+          // Iterate through the mined data and add it to the page
+          for (const item of data) {
+            document.getElementById('gathered-text').textContent += `${item}\n`;
+          }
+        });
+      });
+    </script>
+  </body>
+</html>
+
+
